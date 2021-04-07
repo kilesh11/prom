@@ -6,7 +6,7 @@ services:
         command:
             - --config.file=/etc/prometheus/prometheus.yml
         volumes:
-            - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+            - ./prometheus/:/etc/prometheus:ro
             - prometheus_data:/prometheus
         extra_hosts:
             - "host.docker.internal:host-gateway"
@@ -14,6 +14,17 @@ services:
         depends_on:
             - cadvisor
             - node_exporter
+        networks:
+            - 'nginx'
+    alertmanager:
+        image: prom/alertmanager:latest
+        container_name: alertmanager
+        restart: unless-stopped
+        volumes:
+            - ./alertmanager/:/etc/alertmanager:ro
+        command:
+            - '--config.file=/etc/alertmanager/alertmanager.yml'
+            - '--web.external-url=https://kyleslab.net:9093'
         networks:
             - 'nginx'
     cadvisor:

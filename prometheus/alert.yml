@@ -1,0 +1,27 @@
+groups:
+  - name: ServiceDownAlert
+    rules:
+      - alert: PromInstanceDown 
+        expr: up{job="prometheus"} < 1 
+        for: 1m 
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.job }} down"
+          description: "{{ $labels.job }} has been down for 1 minute"
+      - alert: CAdvisorInstanceDown 
+        expr: up{job="cadvisor"} < 1 
+        for: 1m 
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.job }} down"
+          description: "{{ $labels.job }} has been down for 1 minute"
+      - alert: NodeExporterInstanceDown 
+        expr: up{job="node_exporter"} < 1 
+        for: 1m 
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.job }} down"
+          description: "{{ $labels.job }} has been down for 1 minute"
