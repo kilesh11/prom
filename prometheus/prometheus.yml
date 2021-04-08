@@ -29,3 +29,8 @@ scrape_configs:
     - targets: ['host.docker.internal:9100']
       labels:
         alias: 'node_exporter'
+  - job_name: alertmanager
+    static_configs:
+    - targets: ['alertmanager:9093']
+      labels:
+        alias: 'alertmanager'
